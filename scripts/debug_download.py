@@ -5,7 +5,7 @@ Not used in production cron jobs.
 import io
 from datetime import datetime
 from tqdm.auto import tqdm
-import ingest_utils as iu   # your production helpers
+import ingest_utils as iu
 
 
 def download_file(ts: datetime, timeout: int = 60) -> bytes:
@@ -26,6 +26,5 @@ def download_file(ts: datetime, timeout: int = 60) -> bytes:
     return buf.getvalue()
 
 if __name__ == "__main__":
-    # Example: hard‑code a known hour or parse CLI args
     ts = datetime(2025, 7, 10, 12)
     download_file(ts)

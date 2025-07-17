@@ -1,14 +1,10 @@
 import os
-import time
-import io
 from datetime import datetime, timezone, timedelta
 import requests
 import boto3
-from tqdm import tqdm
 from dotenv import load_dotenv
-from boto3.s3.transfer import TransferConfig
 from botocore.exceptions import BotoCoreError, EndpointConnectionError
-from logger_util import get_logger
+from utils.logger_util import get_logger
 
 
 # logging configuration
