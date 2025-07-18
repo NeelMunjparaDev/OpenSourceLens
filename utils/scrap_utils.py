@@ -1,35 +1,64 @@
-def upload_file_with_streaming(ts, bucket, key, timeout=30):
+import io
+import requests
+from datetime import datetime, timedelta
+import boto3
+from tqdm.auto import tqdm
+
+
+def build_url(ts: datetime) -> str:
     """
-    Upload a file to S3 using streaming.
+    Build the GH archive URL for the given timestamp.
+    Format: https://data.gharchive.org/YYYY-MM-DD-H.json.gz
+    """
+    return ts.strftime("https://data.gharchive.org/%Y-%m-%d-%-H.json.gz")
+
+
+def download_file(ts: datetime, timeout: int = 60) -> bytes:
+    """
+    Download the file from GH Archive for the given timestamp.
     """
     url = build_url(ts)
-    print(f"streaming {url} to s3://{bucket}/{key} ...")
+    response = requests.get(url, stream=True, timeout=timeout)
+    response.raise_for_status()
+    
+    total = int(response.headers.get("Content-Length", 0))
+    buf = io.BytesIO()
+    bar = tqdm(total=total, unit='B', unit_scale=True, desc=f"Downloading {url}")
+    
+    for chunk in response.iter_content(chunk_size=8192):
+        if chunk:
+            buf.write(chunk)
+            bar.update(len(chunk))
+    bar.close()
+    
+    buf.seek(0)
+    return buf.getvalue()
 
-    with requests.get(url, stream=True, timeout=timeout) as res:
-        res.raise_for_status()
-        body = io.BufferedReader(res.raw)
-        config = TransferConfig(multipart_chunksize=8*1024*1024,
-                                multipart_threshold=8*1024*1024,
-                                max_concurrency=5)
-        s3 = boto3.client('s3')
-        s3.upload_fileobj(
-            body,
-            bucket,
-            key,
-            Config=config
-        )
-        print(f"Uploaded to s3://{bucket}/{key}")
 
-def safe_upload_streaming_files(ts, bucket, key, attempts=3):
+def upload_to_s3(content: bytes, ts: datetime, bucket: str, prefix: str = "bronze"):
     """
-    Safely upload a file to S3 with retries.
+    Upload given bytes to S3 in the correct hourly folder structure.
     """
-    for attempt in range(attempts):
+    s3_key = f"{prefix}/{ts.strftime('%Y/%m/%d/%H')}/data.json.gz"
+    s3 = boto3.client("s3")
+    s3.upload_fileobj(io.BytesIO(content), bucket, s3_key)
+    print(f"✅ Uploaded to s3://{bucket}/{s3_key}")
+
+
+def main():
+    start = datetime(2025, 7, 1, 17)
+    end = datetime(2025, 7, 15, 23)
+    bucket = "gh-lake-neel"  # TODO: change to your bucket name
+
+    current = start
+    while current <= end:
         try:
-            upload_file_with_streaming(ts, bucket, key)
-            return
-        except (requests.RequestException, BotoCoreError, EndpointConnectionError) as e:
-            print(f"Attempt {attempt + 1} failed: {e}")
-            
-    raise RuntimeError(f"Failed to upload {key} after {attempts} attempts.")
-   
+            content = download_file(current)
+            upload_to_s3(content, current, bucket)
+        except Exception as e:
+            print(f"❌ Failed at {current}: {e}")
+        current += timedelta(hours=1)
+
+
+if __name__ == "__main__":
+    main()
