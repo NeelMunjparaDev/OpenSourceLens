@@ -1,5 +1,6 @@
-from utils.spark_helper import get_spark
+from utils.spark_helper import get_spark, get_spark_local
 from pyspark.sql.functions import *
+from pyspark.sql.types import *
 from pyspark.sql import DataFrame
 from dotenv import load_dotenv
 import os
@@ -10,19 +11,48 @@ load_dotenv()
 BRONZE_BASE = os.getenv("BRONZE_BASE")
 ICEBERG_SILVER_TABLE = os.getenv("ICEBERG_SILVER_TABLE")
 
-def load_day(spark, day_path: str):
+schema_for_push_event = StructType([
+                StructField("id", StringType(), False),
+                StructField("type", StringType(), True),
+                StructField("actor", StructType([
+                    StructField("id", LongType(), True),
+                    StructField("login", StringType(), True),
+                ]), True),
+                StructField("repo", StructType([
+                    StructField("id", StringType(), True),
+                    StructField("name", StringType(), True),
+                    StructField("url", StringType(), True),
+                ]), True),
+                StructField("payload", StructType([
+                    StructField("ref", StringType(), True),
+                    StructField("head", StringType(), True),
+                    StructField("before", StringType(), True),
+                    StructField("commits", ArrayType(StructType([
+                        StructField("sha", StringType(), True),
+                        StructField("author", StructType([
+                            StructField("name", StringType(), True),
+                            StructField("email", StringType(), True),
+                        ]), True),
+                        StructField("message", StringType(), True),
+                        StructField("url", StringType(), True),
+                    ])), True),
+                ]), True),
+                StructField("created_at", StringType(), True)
+            ]) 
+
+def load_day(spark, schema, day_path: str):
     """
     Load a day's data from the bronze bucket.
     """
     bronze_path = f"{BRONZE_BASE}{day_path}/*/data.json.gz"
-    return spark.read.json(bronze_path)
+    return spark.read.schema(schema).json(bronze_path)
 
-def load_local(spark):
+def load_local(spark,schema):
     """
     Load a day's data from the bronze bucket.
     """
     path = os.getenv("LOCAL_DB_PATH")
-    return spark.read.json(path)
+    return spark.read.schema(schema).json(path)
 
 
 def filter_push_events(df: DataFrame) -> DataFrame:
@@ -39,16 +69,16 @@ def flatten_push_events(df: DataFrame) -> DataFrame:
     flattened_df = df_commits.select(
         col("id").alias("event_id"),
         "created_at",
-        col("repo.name").alias("repo_name"),
-        col("actor.login").alias("actor_login"),
         col("actor.id").alias("actor_id"),
+        col("actor.login").alias("actor_login"),
+        col("repo.name").alias("repo_name"),
         col("payload.ref").alias("ref"),
-        col("payload.before").alias("before_sha"),
         col("payload.head").alias("head_sha"),
+        col("payload.before").alias("before_sha"),
         col("commit.sha").alias("commit_sha"),
-        col("commit.message").alias("commit_message"),
-        col("commit.author.name").alias("author_name"),
         col("commit.author.email").alias("author_email"),
+        col("commit.author.name").alias("author_name"),
+        col("commit.message").alias("commit_message"),
         col("commit.url").alias("commit_url")
     )
     return flattened_df
@@ -125,17 +155,10 @@ def write_to_silver_table(df: DataFrame, table_name: str, create: bool = False):
 
 def main():
     spark = get_spark("BronzeToSilverTransformation")
-    # day_path = "2025/07/01"
-    # df = load_day(spark, day_path)
-    # # df = load_local(spark)
-    # df = transform_bronze_to_silver(df)
-    # write_to_silver_table(df, "my_catalog.github_commits.silver", create=True)
-    spark.sql("""
-              SELECT repo_name, COUNT(DISTINCT author_name) AS unique_contributors
-                FROM my_catalog.github_commits.silver
-                GROUP BY repo_name
-                ORDER BY unique_contributors ASC
-                """).show(50)
-
+    spark_local = get_spark_local("BronzeToSilverTransformationLocal")
+    df = load_local(spark, schema_for_push_event)
+    df = transform_bronze_to_silver(df)
+    write_to_silver_table(df, "my_catalog.github_commits.silver", create=False)
+    
 if __name__ == "__main__":
     main()
