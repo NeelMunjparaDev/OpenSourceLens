@@ -1,0 +1,156 @@
+{
+  "format-version" : 1,
+  "table-uuid" : "f16e458d-5163-430c-b6c8-cdb72c5e0d72",
+  "location" : "file:///Users/neel/Desktop/databricksProject/data_pipeline_project/local_data/datalake/github_commits/gold/contributor_consistency",
+  "last-updated-ms" : 1753261952530,
+  "last-column-id" : 7,
+  "schema" : {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "repo_name",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 2,
+      "name" : "contributor",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 3,
+      "name" : "contributor_email",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 4,
+      "name" : "year",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 5,
+      "name" : "month",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 6,
+      "name" : "active_days",
+      "required" : false,
+      "type" : "long"
+    }, {
+      "id" : 7,
+      "name" : "consistency_level",
+      "required" : false,
+      "type" : "string"
+    } ]
+  },
+  "current-schema-id" : 0,
+  "schemas" : [ {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "repo_name",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 2,
+      "name" : "contributor",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 3,
+      "name" : "contributor_email",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 4,
+      "name" : "year",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 5,
+      "name" : "month",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 6,
+      "name" : "active_days",
+      "required" : false,
+      "type" : "long"
+    }, {
+      "id" : 7,
+      "name" : "consistency_level",
+      "required" : false,
+      "type" : "string"
+    } ]
+  } ],
+  "partition-spec" : [ {
+    "name" : "year",
+    "transform" : "identity",
+    "source-id" : 4,
+    "field-id" : 1000
+  }, {
+    "name" : "month",
+    "transform" : "identity",
+    "source-id" : 5,
+    "field-id" : 1001
+  } ],
+  "default-spec-id" : 0,
+  "partition-specs" : [ {
+    "spec-id" : 0,
+    "fields" : [ {
+      "name" : "year",
+      "transform" : "identity",
+      "source-id" : 4,
+      "field-id" : 1000
+    }, {
+      "name" : "month",
+      "transform" : "identity",
+      "source-id" : 5,
+      "field-id" : 1001
+    } ]
+  } ],
+  "last-partition-id" : 1001,
+  "default-sort-order-id" : 0,
+  "sort-orders" : [ {
+    "order-id" : 0,
+    "fields" : [ ]
+  } ],
+  "properties" : {
+    "owner" : "neel"
+  },
+  "current-snapshot-id" : 8779062845393650082,
+  "refs" : {
+    "main" : {
+      "snapshot-id" : 8779062845393650082,
+      "type" : "branch"
+    }
+  },
+  "snapshots" : [ {
+    "snapshot-id" : 8779062845393650082,
+    "timestamp-ms" : 1753261952530,
+    "summary" : {
+      "operation" : "append",
+      "spark.app.id" : "local-1753261939584",
+      "added-data-files" : "1",
+      "added-records" : "292",
+      "added-files-size" : "6800",
+      "changed-partition-count" : "1",
+      "total-records" : "292",
+      "total-files-size" : "6800",
+      "total-data-files" : "1",
+      "total-delete-files" : "0",
+      "total-position-deletes" : "0",
+      "total-equality-deletes" : "0"
+    },
+    "manifest-list" : "file:/Users/neel/Desktop/databricksProject/data_pipeline_project/local_data/datalake/github_commits/gold/contributor_consistency/metadata/snap-8779062845393650082-1-8209e621-eb25-4d6c-ac24-13f61fe973e1.avro",
+    "schema-id" : 0
+  } ],
+  "statistics" : [ ],
+  "snapshot-log" : [ {
+    "timestamp-ms" : 1753261952530,
+    "snapshot-id" : 8779062845393650082
+  } ],
+  "metadata-log" : [ ]
+}

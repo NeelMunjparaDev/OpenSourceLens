@@ -3,3 +3,16 @@
 __pycache__/
 *.pyc
 .airflow_env
+*.log
+.idea/
+.DS_Store
+build/
+dist/
+*.egg-info/
+.DS_Store
+.idea/
+airflow/airflow.db*
+airflow/*.err
+airflow/*.out
+airflow/*.cfg
+airflow/*.json.generated

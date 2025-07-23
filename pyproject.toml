@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gh_archive_pipeline"
+version = "0.1.0"
+dependencies = [
+    "pyspark==3.3.2",
+    "boto3",
+    "requests",
+    "python-dotenv",
+    "pytz",
+    "apache-airflow",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["gh_archive_pipeline*"]

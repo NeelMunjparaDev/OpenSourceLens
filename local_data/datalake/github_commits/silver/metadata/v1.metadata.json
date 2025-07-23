@@ -1,0 +1,276 @@
+{
+  "format-version" : 1,
+  "table-uuid" : "bfbbf6e0-75d3-4486-8850-2f089c513e69",
+  "location" : "file:///Users/neel/Desktop/databricksProject/data_pipeline_project/local_data/datalake/github_commits/silver",
+  "last-updated-ms" : 1753261935375,
+  "last-column-id" : 18,
+  "schema" : {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "event_id",
+      "required" : false,
+      "type" : "long"
+    }, {
+      "id" : 2,
+      "name" : "created_at",
+      "required" : false,
+      "type" : "timestamptz"
+    }, {
+      "id" : 3,
+      "name" : "actor_id",
+      "required" : false,
+      "type" : "long"
+    }, {
+      "id" : 4,
+      "name" : "actor_login",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 5,
+      "name" : "repo_name",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 6,
+      "name" : "ref",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 7,
+      "name" : "head_sha",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 8,
+      "name" : "before_sha",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 9,
+      "name" : "commit_sha",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 10,
+      "name" : "author_email",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 11,
+      "name" : "author_name",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 12,
+      "name" : "commit_message",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 13,
+      "name" : "commit_url",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 14,
+      "name" : "commit_message_length",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 15,
+      "name" : "repo_owner",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 16,
+      "name" : "year",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 17,
+      "name" : "month",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 18,
+      "name" : "day",
+      "required" : false,
+      "type" : "int"
+    } ]
+  },
+  "current-schema-id" : 0,
+  "schemas" : [ {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "event_id",
+      "required" : false,
+      "type" : "long"
+    }, {
+      "id" : 2,
+      "name" : "created_at",
+      "required" : false,
+      "type" : "timestamptz"
+    }, {
+      "id" : 3,
+      "name" : "actor_id",
+      "required" : false,
+      "type" : "long"
+    }, {
+      "id" : 4,
+      "name" : "actor_login",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 5,
+      "name" : "repo_name",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 6,
+      "name" : "ref",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 7,
+      "name" : "head_sha",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 8,
+      "name" : "before_sha",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 9,
+      "name" : "commit_sha",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 10,
+      "name" : "author_email",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 11,
+      "name" : "author_name",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 12,
+      "name" : "commit_message",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 13,
+      "name" : "commit_url",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 14,
+      "name" : "commit_message_length",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 15,
+      "name" : "repo_owner",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 16,
+      "name" : "year",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 17,
+      "name" : "month",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 18,
+      "name" : "day",
+      "required" : false,
+      "type" : "int"
+    } ]
+  } ],
+  "partition-spec" : [ {
+    "name" : "year",
+    "transform" : "identity",
+    "source-id" : 16,
+    "field-id" : 1000
+  }, {
+    "name" : "month",
+    "transform" : "identity",
+    "source-id" : 17,
+    "field-id" : 1001
+  }, {
+    "name" : "day",
+    "transform" : "identity",
+    "source-id" : 18,
+    "field-id" : 1002
+  } ],
+  "default-spec-id" : 0,
+  "partition-specs" : [ {
+    "spec-id" : 0,
+    "fields" : [ {
+      "name" : "year",
+      "transform" : "identity",
+      "source-id" : 16,
+      "field-id" : 1000
+    }, {
+      "name" : "month",
+      "transform" : "identity",
+      "source-id" : 17,
+      "field-id" : 1001
+    }, {
+      "name" : "day",
+      "transform" : "identity",
+      "source-id" : 18,
+      "field-id" : 1002
+    } ]
+  } ],
+  "last-partition-id" : 1002,
+  "default-sort-order-id" : 0,
+  "sort-orders" : [ {
+    "order-id" : 0,
+    "fields" : [ ]
+  } ],
+  "properties" : {
+    "owner" : "neel"
+  },
+  "current-snapshot-id" : 6516553241435209312,
+  "refs" : {
+    "main" : {
+      "snapshot-id" : 6516553241435209312,
+      "type" : "branch"
+    }
+  },
+  "snapshots" : [ {
+    "snapshot-id" : 6516553241435209312,
+    "timestamp-ms" : 1753261935375,
+    "summary" : {
+      "operation" : "append",
+      "spark.app.id" : "local-1753261908485",
+      "added-data-files" : "27",
+      "added-records" : "969555",
+      "added-files-size" : "187030508",
+      "changed-partition-count" : "3",
+      "total-records" : "969555",
+      "total-files-size" : "187030508",
+      "total-data-files" : "27",
+      "total-delete-files" : "0",
+      "total-position-deletes" : "0",
+      "total-equality-deletes" : "0"
+    },
+    "manifest-list" : "file:/Users/neel/Desktop/databricksProject/data_pipeline_project/local_data/datalake/github_commits/silver/metadata/snap-6516553241435209312-1-0c0f9ab2-730a-4a94-b698-ec5d692ac844.avro",
+    "schema-id" : 0
+  } ],
+  "statistics" : [ ],
+  "snapshot-log" : [ {
+    "timestamp-ms" : 1753261935375,
+    "snapshot-id" : 6516553241435209312
+  } ],
+  "metadata-log" : [ ]
+}

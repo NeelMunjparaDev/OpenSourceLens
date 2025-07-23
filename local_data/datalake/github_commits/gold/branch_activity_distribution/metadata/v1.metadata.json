@@ -1,0 +1,186 @@
+{
+  "format-version" : 1,
+  "table-uuid" : "6a095692-7c10-4ae5-b943-317ec165ee09",
+  "location" : "file:///Users/neel/Desktop/databricksProject/data_pipeline_project/local_data/datalake/github_commits/gold/branch_activity_distribution",
+  "last-updated-ms" : 1753261950376,
+  "last-column-id" : 9,
+  "schema" : {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "repo_name",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 2,
+      "name" : "branch",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 3,
+      "name" : "date",
+      "required" : false,
+      "type" : "date"
+    }, {
+      "id" : 4,
+      "name" : "commit_count",
+      "required" : false,
+      "type" : "long"
+    }, {
+      "id" : 5,
+      "name" : "percentile",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 6,
+      "name" : "activity_flag",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 7,
+      "name" : "year",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 8,
+      "name" : "month",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 9,
+      "name" : "day",
+      "required" : false,
+      "type" : "int"
+    } ]
+  },
+  "current-schema-id" : 0,
+  "schemas" : [ {
+    "type" : "struct",
+    "schema-id" : 0,
+    "fields" : [ {
+      "id" : 1,
+      "name" : "repo_name",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 2,
+      "name" : "branch",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 3,
+      "name" : "date",
+      "required" : false,
+      "type" : "date"
+    }, {
+      "id" : 4,
+      "name" : "commit_count",
+      "required" : false,
+      "type" : "long"
+    }, {
+      "id" : 5,
+      "name" : "percentile",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 6,
+      "name" : "activity_flag",
+      "required" : false,
+      "type" : "string"
+    }, {
+      "id" : 7,
+      "name" : "year",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 8,
+      "name" : "month",
+      "required" : false,
+      "type" : "int"
+    }, {
+      "id" : 9,
+      "name" : "day",
+      "required" : false,
+      "type" : "int"
+    } ]
+  } ],
+  "partition-spec" : [ {
+    "name" : "year",
+    "transform" : "identity",
+    "source-id" : 7,
+    "field-id" : 1000
+  }, {
+    "name" : "month",
+    "transform" : "identity",
+    "source-id" : 8,
+    "field-id" : 1001
+  }, {
+    "name" : "day",
+    "transform" : "identity",
+    "source-id" : 9,
+    "field-id" : 1002
+  } ],
+  "default-spec-id" : 0,
+  "partition-specs" : [ {
+    "spec-id" : 0,
+    "fields" : [ {
+      "name" : "year",
+      "transform" : "identity",
+      "source-id" : 7,
+      "field-id" : 1000
+    }, {
+      "name" : "month",
+      "transform" : "identity",
+      "source-id" : 8,
+      "field-id" : 1001
+    }, {
+      "name" : "day",
+      "transform" : "identity",
+      "source-id" : 9,
+      "field-id" : 1002
+    } ]
+  } ],
+  "last-partition-id" : 1002,
+  "default-sort-order-id" : 0,
+  "sort-orders" : [ {
+    "order-id" : 0,
+    "fields" : [ ]
+  } ],
+  "properties" : {
+    "owner" : "neel"
+  },
+  "current-snapshot-id" : 1501003245283019610,
+  "refs" : {
+    "main" : {
+      "snapshot-id" : 1501003245283019610,
+      "type" : "branch"
+    }
+  },
+  "snapshots" : [ {
+    "snapshot-id" : 1501003245283019610,
+    "timestamp-ms" : 1753261950376,
+    "summary" : {
+      "operation" : "append",
+      "spark.app.id" : "local-1753261939584",
+      "added-data-files" : "3",
+      "added-records" : "305",
+      "added-files-size" : "15348",
+      "changed-partition-count" : "3",
+      "total-records" : "305",
+      "total-files-size" : "15348",
+      "total-data-files" : "3",
+      "total-delete-files" : "0",
+      "total-position-deletes" : "0",
+      "total-equality-deletes" : "0"
+    },
+    "manifest-list" : "file:/Users/neel/Desktop/databricksProject/data_pipeline_project/local_data/datalake/github_commits/gold/branch_activity_distribution/metadata/snap-1501003245283019610-1-f19584e5-b042-4265-8150-78baf38815fe.avro",
+    "schema-id" : 0
+  } ],
+  "statistics" : [ ],
+  "snapshot-log" : [ {
+    "timestamp-ms" : 1753261950376,
+    "snapshot-id" : 1501003245283019610
+  } ],
+  "metadata-log" : [ ]
+}
