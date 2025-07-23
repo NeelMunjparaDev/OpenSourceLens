@@ -17,79 +17,7 @@ This pipeline grabs JSON data from GitHub every hour, turns it into something us
 
 ## Architecture
 
-[GitHub Archive API]
-| (Hourly PushEvent JSON)
-v
-+-----------------------------+
-| Airflow DAG: github_pipeline|
-| (@hourly) |
-+-----------------------------+
-|
-v
-+-----------------------------+
-| Task: ingest_local_data |
-+-----------------------------+
-|
-v
-+-----------------------------+
-| Split to Dual Storage |
-|-----------------------------|
-| [AWS S3 Bronze] | [Local Bronze] |
-| mainfolder/ | local_data/bronze/y/m/d |
-| bronze/y/m/d | |
-+-----------------------------+
-|
-v
-+-----------------------------+
-| FileSensor: sense_bronze |
-| (Senses bronze files) |
-+-----------------------------+
-|
-v
-+-----------------------------+
-| Task: transform_bronze_to |
-| silver |
-+-----------------------------+
-|
-+----------------+
-| |
-v v
-+------------------+ +------------------+
-| S3 Silver | | Local Silver |
-| mainfolder/ | | local_data/datalake/github_commits/silver/y/m/d |
-| datalakehouse/ | | |
-| github_commits/ | | |
-| silver | | |
-+------------------+ +------------------+
-|
-v
-+-----------------------------+
-| FileSensor: sense_silver |
-| (Senses parquet files) |
-+-----------------------------+
-|
-v
-+-----------------------------+
-| Task: perform_aggregations |
-+-----------------------------+
-|
-+----------------+
-| |
-v v
-+------------------+ +------------------+
-| S3 Gold | | Local Gold |
-| mainfolder/ | | local_data/datalake/github_commits/gold/y/m/d |
-| datalakehouse/ | | |
-| github_commits/ | | |
-| gold | | |
-+------------------+ +------------------+
-|
-v
-+-----------------------------+
-| Streamlit Dashboard |
-| (Optional: Visualizes |
-| metrics) |
-+-----------------------------+
+[GitHub API] -> [Airflow DAG: github_pipeline] -> [ingest_local_data] -> [Bronze: S3/Local] -> [sense_bronze] -> [transform_bronze_to_silver] -> [Silver: S3/Local] -> [sense_silver] -> [perform_aggregations] -> [Gold: S3/Local] -> [Streamlit (Optional)]
 
 ## Tech Stack
 
@@ -147,9 +75,20 @@ This project simulates a real-world data pipeline and demonstrates:
 ## Folder Structure
 
 gh_archive_pipeline/
-├── src/gh_archive_pipeline/scripts/
-├── airflow/dags/
-├── pyproject.toml
-├── .gitignore
-├── .env
-└── local_data/ (bronze/, datalake/github_commits/silver/, gold/)
+
+- src/
+  - gh_archive_pipeline/
+    - scripts/
+    - transformations/
+    - utils
+- airflow/
+  - dags/
+- pyproject.toml
+- .gitignore
+- .env
+- local_data/
+  - bronze/
+  - datalake/
+    - github_commits/
+      - silver/
+      - gold/
