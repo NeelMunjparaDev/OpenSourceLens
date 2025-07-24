@@ -16,8 +16,7 @@ This pipeline grabs JSON data from GitHub every hour, turns it into something us
 - Plans for a Streamlit dashboard are on my to-do list.
 
 ## Architecture
-
-[GitHub API] -> [Airflow DAG: github_pipeline] -> [ingest_local_data] -> [Bronze: S3/Local] -> [sense_bronze] -> [transform_bronze_to_silver] -> [Silver: S3/Local] -> [sense_silver] -> [perform_aggregations] -> [Gold: S3/Local] -> [Streamlit (Optional)]
+<img width="784" height="880" alt="Screenshot 2025-07-23 at 9 55 58 PM" src="https://github.com/user-attachments/assets/ca8571d8-fb76-4361-8ae7-372f5d8b9569" />
 
 ## Tech Stack
 
